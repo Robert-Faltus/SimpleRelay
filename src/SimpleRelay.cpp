@@ -32,8 +32,6 @@
 SimpleRelay::SimpleRelay(uint8_t pin, bool isInverted) {
     m_pin = pin;
     m_relayOnLogicLevel = isInverted ? LOW : HIGH;
-    pinMode(m_pin, OUTPUT);
-    off();
 }
 
 /**
@@ -42,6 +40,16 @@ SimpleRelay::SimpleRelay(uint8_t pin, bool isInverted) {
 SimpleRelay::~SimpleRelay() {
     // set pin to high impedance
     pinMode(m_pin, INPUT);
+}
+
+/**
+ * @brief  Initialize the relay.
+ * @param basicState sets the relay to base state. <code>TRUE</code> = ON, <code>FALSE</code> = OFF.
+ */
+void SimpleRelay::begin(bool basicState) {
+    pinMode(m_pin, OUTPUT);
+    delay(1);
+    (basicState) ? on() : off();
 }
 
 /**
